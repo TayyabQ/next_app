@@ -1,9 +1,10 @@
 "use client"
 
 import Image from "next/image";
-import ContactModal from "./modal/contact-modal";
+import ContactModal from "./Modal/contact-modal";
 import { useState } from "react";
-import SuccessMessage from "./success-message/success-message";
+import SuccessMessage from "./messages/success-message";
+import FailMessage from './messages/fail-message';
 
 export default function Contact() {
     const [showModal,setShowModal] = useState<boolean>(false);
@@ -36,6 +37,7 @@ export default function Contact() {
       </div>
       {showModal && <ContactModal setShowModal={setShowModal} message={message} setMessage={setMessage}/>}
       {/* <SuccessMessage/> */}
+      {/* <FailMessage/> */}
     </>
   );
 }
