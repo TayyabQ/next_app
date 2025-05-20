@@ -1,14 +1,27 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import ContactModal from "./Modal/contact-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SuccessMessage from "./messages/success-message";
-import FailMessage from './messages/fail-message';
+import FailMessage from "./messages/fail-message";
 
 export default function Contact() {
-    const [showModal,setShowModal] = useState<boolean>(false);
-    const [message,setMessage] = useState<object>({});
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [fail, setFail] = useState<boolean>(false);
+  const [message, setMessage] = useState<object>({});
+  useEffect(() => {
+    //fetch request upon the message being changed in the modal
+    // const result = await fetch();
+    // const result = "";
+    // if(result){
+    //   setSuccess(true);
+    // } else {
+    //   setFail(true);
+    // }
+  }, [message]);
+
   return (
     <>
       <div className="my-gradient-green w-104 h-124 sm:w-64 sm:h-84 md:w-124 md:h-144 lg:w-164 lg:h-184 pb-2 pr-2 lg:pr-4 lg:pb-4">
@@ -26,18 +39,27 @@ export default function Contact() {
             <p className="text-white text-xs lg:text-lg mb-5">
               Let us know how we can help
             </p>
-            <button onClick={(e)=>{
-                e.preventDefault()
+            <button
+              onClick={(e) => {
+                e.preventDefault();
                 setShowModal(true);
-            }} className="text-green-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-lg text-xs font-semibold rounded-lg hover:cursor-pointer ">
+              }}
+              className="text-green-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-lg text-xs font-semibold rounded-lg hover:cursor-pointer "
+            >
               Contact Us
             </button>
           </div>
         </div>
       </div>
-      {showModal && <ContactModal setShowModal={setShowModal} message={message} setMessage={setMessage}/>}
-      {/* <SuccessMessage/> */}
-      {/* <FailMessage/> */}
+      {showModal && (
+        <ContactModal
+          setShowModal={setShowModal}
+          message={message}
+          setMessage={setMessage}
+        />
+      )}
+      {success && <SuccessMessage />}
+      {fail && <FailMessage />}
     </>
   );
 }
