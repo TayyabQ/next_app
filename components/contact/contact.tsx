@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function Contact() {
     const [showModal,setShowModal] = useState<boolean>(false);
+    const [message,setMessage] = useState<object>({});
   return (
     <>
       <div className="my-gradient-green w-104 h-124 sm:w-64 sm:h-84 md:w-124 md:h-144 lg:w-164 lg:h-184 pb-2 pr-2 lg:pr-4 lg:pb-4">
@@ -32,7 +33,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
-      {showModal && <ContactModal setShowModal={setShowModal}/>}
+      {showModal && <ContactModal setShowModal={setShowModal} message={message} setMessage={setMessage}/>}
     </>
   );
 }

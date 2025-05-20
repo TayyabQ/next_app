@@ -32,3 +32,17 @@ body {
 .my-gradient-green{
   background: linear-gradient(90deg, #4ADE80, #22C55E);
 }
+
+.animate{
+  animation: pop-up 2s ease-in-out;
+}
+
+@keyframes pop-up {
+  from {
+    transform:translate3d(0%,0%,0%)
+  }
+  to {
+    transform : translate3d(100%,100%,100%)
+  }
+}
+

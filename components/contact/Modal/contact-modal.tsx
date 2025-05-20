@@ -1,12 +1,20 @@
 import { Dispatch, SetStateAction } from "react";
-
+import { useState } from "react";
 export default function ContactModal({
+  message,
   setShowModal,
+  setMessage,
 }: {
+  message: object;
   setShowModal: Dispatch<SetStateAction<boolean>>;
+  setMessage: Dispatch<SetStateAction<object>>;
 }) {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [messageBody, setMessageBody] = useState<string>("");
+
   return (
-    <div className="fixed inset-0 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center">
+    <div className="fixed inset-0 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center animate">
       <div className="w-96 sm:w-150 rounded-md bg-gray-50 shadow-lg">
         <div className="flex justify-end ">
           <button
@@ -22,7 +30,18 @@ export default function ContactModal({
         <div className="text-center p-8">
           <h3 className="text-2xl font-bold text-green-600">Contact Us</h3>
           <div className="mt-2 px-7 py-3">
-            <form className="text-left flex flex-col gap-0.5">
+            <form
+              className="text-left flex flex-col gap-0.5"
+              action={() => {
+                const newMessage = { name, email, messageBody };
+                setMessage(newMessage);
+                setName("");
+                setEmail("");
+                setMessageBody("");
+                console.log(newMessage);
+                setShowModal(false)
+              }}
+            >
               <label
                 htmlFor="name"
                 className="text-lg text-gray-500 font-semibold"
@@ -30,6 +49,10 @@ export default function ContactModal({
                 Name
               </label>
               <input
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 id="name"
                 type="text"
                 className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-90 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2"
@@ -43,6 +66,10 @@ export default function ContactModal({
                 Email
               </label>
               <input
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 id="email"
                 type="email"
                 className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-90 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2"
@@ -56,6 +83,10 @@ export default function ContactModal({
                 Message
               </label>
               <textarea
+                value={messageBody}
+                onChange={(e) => {
+                  setMessageBody(e.target.value);
+                }}
                 id="message"
                 rows={4}
                 className="resize-none bg-white p-2 text-base rounded-md shadow-sm w-90 sm:w-110 h-fit my-1 sm:my-2 ml-1 sm:ml-2"
