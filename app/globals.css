@@ -34,15 +34,15 @@ body {
 }
 
 .animate{
-  animation: pop-up 2s ease-in-out;
+  animation: pop-up 0.25s ease-in-out;
 }
 
 @keyframes pop-up {
   from {
-    transform:translate3d(0%,0%,0%)
+    transform:translateY(-100%)
   }
   to {
-    transform : translate3d(100%,100%,100%)
+    transform : translateY(0%)
   }
 }
 
