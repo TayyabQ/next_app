@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
+import * as z from "zod";
+
 export default function ContactModal({
   message,
   setShowModal,
@@ -9,9 +11,33 @@ export default function ContactModal({
   setShowModal: Dispatch<SetStateAction<boolean>>;
   setMessage: Dispatch<SetStateAction<object>>;
 }) {
+  const formSchema = z.object({
+    name: z.string().nonempty("Name cannot be empty!"),
+    email: z.string().email().nonempty("Email cannot be empty!"),
+    messageBody: z.string().nonempty("Message body cannot be empty!"),
+  });
+
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
+  const [error, setError] = useState<string | undefined>("");
+
+  function handleSubmission() {
+    const newMessage = { name, email, messageBody };
+    const result = formSchema.safeParse(newMessage);
+    if (result.success) {
+      setMessage(newMessage);
+      setName("");
+      setEmail("");
+      setMessageBody("");
+      console.log(newMessage);
+      setShowModal(false);
+    } else {
+      console.log("Validation Error: ", result.error.format());
+      const newError = result.error.format().email?._errors[0];
+      setError(newError);
+    }
+  }
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center animate">
@@ -32,15 +58,7 @@ export default function ContactModal({
           <div className="mt-2 px-7 py-3">
             <form
               className="text-left flex flex-col gap-0.5"
-              action={() => {
-                const newMessage = { name, email, messageBody };
-                setMessage(newMessage);
-                setName("");
-                setEmail("");
-                setMessageBody("");
-                console.log(newMessage);
-                setShowModal(false)
-              }}
+              action={handleSubmission}
             >
               <label
                 htmlFor="name"
@@ -65,6 +83,7 @@ export default function ContactModal({
               >
                 Email
               </label>
+              {error && <p className="text-red-500">{error}</p>}
               <input
                 value={email}
                 onChange={(e) => {
