@@ -5,10 +5,7 @@ interface CustomButtonProps {
 }
 
 const Button = ({ label, onClick, className }: CustomButtonProps) => (
-  <button
-    onClick={onClick}
-    className={`${className || ''}`}
-  >
+  <button onClick={onClick} className={`${className || ""}`}>
     {label}
   </button>
 );

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '../../../lib/prisma';
+import { NextResponse } from "next/server";
+import prisma from "../../../lib/prisma";
 
 interface SubscribeRequestBody {
   name: string;
@@ -12,19 +12,25 @@ export async function POST(request: Request) {
     const { name, email } = body as SubscribeRequestBody;
 
     if (!name || !name.trim() || !email || !email.trim()) {
-      return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Name and email are required." },
+        { status: 400 }
+      );
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
-        return NextResponse.json({ error: "Invalid email format provided." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid email format provided." },
+        { status: 400 }
+      );
     }
 
     const newSubscription = await prisma.newsletterSubscription.create({
       data: {
         name: name.trim(),
-        email: email.trim().toLowerCase(), 
-    },
+        email: email.trim().toLowerCase(),
+      },
     });
 
     return NextResponse.json(
@@ -34,11 +40,10 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
-
   } catch (error: any) {
     console.error("API Route Error - /api/subscribe POST:", error);
 
-    if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
+    if (error.code === "P2002" && error.meta?.target?.includes("email")) {
       return NextResponse.json(
         { error: "This email address is already subscribed." },
         { status: 409 }
