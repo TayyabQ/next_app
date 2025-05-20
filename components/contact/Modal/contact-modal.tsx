@@ -40,7 +40,7 @@ export default function ContactModal({
   }
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center animate">
+    <div className="fixed inset-0 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center animate z-100">
       <div className="w-96 sm:w-150 rounded-md bg-gray-50 shadow-lg">
         <div className="flex justify-end ">
           <button
@@ -53,7 +53,7 @@ export default function ContactModal({
             x
           </button>
         </div>
-        <div className="text-center p-8">
+        <div className="text-center lg:p-8 p-4">
           <h3 className="text-2xl font-bold text-green-600">Contact Us</h3>
           <div className="mt-2 px-7 py-3">
             <form
@@ -73,7 +73,7 @@ export default function ContactModal({
                 }}
                 id="name"
                 type="text"
-                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-90 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2"
+                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-70 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
                 placeholder="Your Name"
                 required
               />
@@ -91,7 +91,7 @@ export default function ContactModal({
                 }}
                 id="email"
                 type="email"
-                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-90 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2"
+                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-70 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
                 placeholder="Your Email"
                 required
               />
@@ -108,13 +108,13 @@ export default function ContactModal({
                 }}
                 id="message"
                 rows={4}
-                className="resize-none bg-white p-2 text-base rounded-md shadow-sm w-90 sm:w-110 h-fit my-1 sm:my-2 ml-1 sm:ml-2"
+                className="resize-none bg-white p-2 text-base rounded-md shadow-sm w-70 sm:w-110 h-fit my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
                 placeholder="Your Message"
                 required
               />
               <button
                 type="submit"
-                className="mt-3 self-end mr-8 bg-green-600 text-white p-2 text-lg rounded-md hover:cursor-pointer hover:bg-green-600 w-fit"
+                className="mt-3 self-center bg-green-600 text-white p-2 text-lg rounded-md hover:cursor-pointer hover:bg-green-600 w-fit "
               >
                 submit
               </button>

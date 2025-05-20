@@ -45,16 +45,16 @@ export default function NewsLetter() {
 
     return (
         <>
-            <div className="relative flex flex-col min-h-screen w-full md:max-w-[640px] md:min-h-[720px] md:mx-auto md:my-8 md:rounded-xl bg-gradient-to-r from-[#60A5FA] to-[#3B82F6] overflow-hidden shadow-2xl">
+            <div className="relative flex flex-col sm:min-h-screen min-h-150 w-full md:max-w-[640px] md:min-h-[720px] bg-gradient-to-r from-[#60A5FA] to-[#3B82F6] overflow-hidden shadow-2xl">
                 <div className="flex-grow flex flex-col justify-center items-center p-6 sm:p-8 text-center z-10">
-                    <img src="/NewsletterFrame.png" alt="Message Icon" width={64} height={64} className="mb-6"/>
-                    <h1 className="font-semibold text-4xl text-white mb-3">Join Our Newsletter</h1>
-                    <p className="text-lg text-neutral-100 mb-8">Stay updated with our latest news and offers!</p>
+                    <img src="/NewsletterFrame.png" alt="Message Icon" width={60} height={60} className="mb-5"/>
+                    <h1 className="font-semibold text-3xl text-white ">Join Our Newsletter</h1>
+                    <p className="text-lg text-neutral-100 mb-5">Stay updated with our latest news and offers!</p>
                     <button
                         onClick={handleSubscribeClick}
-                        className="bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-150 ease-in-out shadow-md"
+                        className="text-blue-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-xl text-lg font-semibold rounded-lg hover:cursor-pointer"
                     >
-                        Subscribe Now
+                        Subscribe
                     </button>
                     {submissionStatus && !showForm && (
                         <p className={`mt-4 text-sm ${submissionStatus.type === 'success' ? 'text-green-100 font-semibold' : 'text-red-200 font-semibold'}`}>
@@ -64,7 +64,7 @@ export default function NewsLetter() {
                 </div>
 
                 {showForm && (
-                    <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-center items-center z-20 p-4 backdrop-blur-sm">
+                    <div className="fixed inset-0 flex flex-col justify-center items-center z-20 p-4 backdrop-blur-sm">
                         <Form
                             nameLabel="Your Name"
                             emailLabel="Your Email Address"
