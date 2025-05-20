@@ -2,25 +2,10 @@
 
 import Image from "next/image";
 import ContactModal from "./Modal/contact-modal";
-import { useEffect, useState } from "react";
-import SuccessMessage from "./messages/success-message";
-import FailMessage from "./messages/fail-message";
+import { useState } from "react";
 
 export default function Contact() {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [fail, setFail] = useState<boolean>(false);
-  const [message, setMessage] = useState<object>({});
-  useEffect(() => {
-    //fetch request upon the message being changed in the modal
-    // const result = await fetch();
-    // const result = "";
-    // if(result){
-    //   setSuccess(true);
-    // } else {
-    //   setFail(true);
-    // }
-  }, [message]);
 
   return (
     <>
@@ -51,15 +36,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
-      {showModal && (
-        <ContactModal
-          setShowModal={setShowModal}
-          message={message}
-          setMessage={setMessage}
-        />
-      )}
-      {success && <SuccessMessage />}
-      {fail && <FailMessage />}
+      {showModal && <ContactModal setShowModal={setShowModal} />}
     </>
   );
 }

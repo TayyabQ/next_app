@@ -127,6 +127,14 @@ exports.Prisma.NewsletterSubscriptionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ContactUsSchemaScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -139,7 +147,8 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  NewsletterSubscription: 'NewsletterSubscription'
+  NewsletterSubscription: 'NewsletterSubscription',
+  ContactUsSchema: 'ContactUsSchema'
 };
 
 /**

@@ -1,15 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
+import SuccessMessage from "../messages/success-message";
+import FailMessage from "../messages/fail-message";
 import * as z from "zod";
 
 export default function ContactModal({
-  message,
   setShowModal,
-  setMessage,
 }: {
-  message: object;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  setMessage: Dispatch<SetStateAction<object>>;
 }) {
   const formSchema = z.object({
     name: z.string().nonempty("Name cannot be empty!"),
@@ -21,6 +19,33 @@ export default function ContactModal({
   const [email, setEmail] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
   const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<boolean>(false);
+  const [fail, setFail] = useState<boolean>(false);
+  const [message, setMessage] = useState<object>({});
+
+  async function handleAPI() {
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        setFail(true);
+        setTimeout(()=>{setFail(false)},300)
+        throw new Error("Nope from frontend");
+      } else {
+        console.log("Message sent:", result);
+        setSuccess(true);
+        setTimeout(()=>{setSuccess(false)},300)
+      }
+    } catch (err) {
+      console.log("some error");
+    }
+  }
 
   function handleSubmission() {
     const newMessage = { name, email, messageBody };
@@ -31,6 +56,7 @@ export default function ContactModal({
       setEmail("");
       setMessageBody("");
       console.log(newMessage);
+      handleAPI();
       setShowModal(false);
     } else {
       console.log("Validation Error: ", result.error.format());
@@ -122,6 +148,9 @@ export default function ContactModal({
           </div>
         </div>
       </div>
+
+      {success && <SuccessMessage />}
+      {fail && <FailMessage />}
     </div>
   );
 }
