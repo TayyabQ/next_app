@@ -16,7 +16,7 @@ model NewsletterSubscription {
 }
 
 model ContactUsSchema {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @unique @default(autoincrement())
   name      String
   email     String
   message   String

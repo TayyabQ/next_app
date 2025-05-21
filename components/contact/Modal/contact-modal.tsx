@@ -12,17 +12,17 @@ export default function ContactModal({
   const formSchema = z.object({
     name: z.string().nonempty("Name cannot be empty!"),
     email: z.string().email().nonempty("Email cannot be empty!"),
-    messageBody: z.string().nonempty("Message body cannot be empty!"),
+    message: z.string().nonempty("Message body cannot be empty!"),
   });
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [messageBody, setMessageBody] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<boolean>(false);
   const [fail, setFail] = useState<boolean>(false);
-  const [message, setMessage] = useState<object>({});
 
+<<<<<<< HEAD
   async function handleAPI() {
   
   try {
@@ -41,6 +41,35 @@ export default function ContactModal({
       setFail(true);
       setTimeout(() => { setFail(false); }, 300);
       return;
+=======
+  async function handleAPI(newMessage: object) {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMessage),
+      });
+      console.log(response);
+      if (!response.ok) {
+        setFail(true);
+        setTimeout(() => {
+          setFail(false);
+        }, 1500);
+      } else {
+        setName("");
+        setEmail("");
+        setMessage("");
+        setShowModal(false);
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 1500);
+      }
+    } catch (err) {
+      console.log("Something went wrong: ", err);
+>>>>>>> cc566ca214a59e233d029273e3b75825fe087cbe
     }
 
     console.log("Message sent successfully:", result.message || result);
@@ -55,9 +84,10 @@ export default function ContactModal({
 }
 
   function handleSubmission() {
-    const newMessage = { name, email, messageBody };
+    const newMessage = { name, email, message };
     const result = formSchema.safeParse(newMessage);
     if (result.success) {
+<<<<<<< HEAD
       setMessage(newMessage);
       setName("");
       setEmail("");
@@ -65,6 +95,10 @@ export default function ContactModal({
       console.log("Values are: " , newMessage);
       handleAPI();
       setShowModal(false);
+=======
+      console.log("Message sent:", result);
+      handleAPI(newMessage);
+>>>>>>> cc566ca214a59e233d029273e3b75825fe087cbe
     } else {
       console.log("Validation Error: ", result.error.format());
       const newError = result.error.format().email?._errors[0];
@@ -106,7 +140,7 @@ export default function ContactModal({
                 }}
                 id="name"
                 type="text"
-                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-70 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
+                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-70 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-green-600"
                 placeholder="Your Name"
                 required
               />
@@ -124,7 +158,7 @@ export default function ContactModal({
                 }}
                 id="email"
                 type="email"
-                className="bg-white px-2 py-1 text-base rounded-md shadow-sm w-70 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
+                className="bg-white px-2 py-1 text-base rounded-md text-black shadow-sm w-70 sm:w-110 h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
                 placeholder="Your Email"
                 required
               />
@@ -135,13 +169,13 @@ export default function ContactModal({
                 Message
               </label>
               <textarea
-                value={messageBody}
+                value={message}
                 onChange={(e) => {
-                  setMessageBody(e.target.value);
+                  setMessage(e.target.value);
                 }}
                 id="message"
                 rows={4}
-                className="resize-none bg-white p-2 text-base rounded-md shadow-sm w-70 sm:w-110 h-fit my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
+                className="resize-none bg-white p-2 text-base rounded-md shadow-sm text-black w-70 sm:w-110 h-fit my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
                 placeholder="Your Message"
                 required
               />

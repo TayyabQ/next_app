@@ -3197,7 +3197,7 @@ export namespace Prisma {
     email?: StringFilter<"ContactUsSchema"> | string
     message?: StringFilter<"ContactUsSchema"> | string
     createdAt?: DateTimeFilter<"ContactUsSchema"> | Date | string
-  }, "id">
+  }, "id" | "id">
 
   export type ContactUsSchemaOrderByWithAggregationInput = {
     id?: SortOrder
