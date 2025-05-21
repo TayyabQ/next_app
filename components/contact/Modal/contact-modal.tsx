@@ -31,20 +31,21 @@ export default function ContactModal({
         },
         body: JSON.stringify(newMessage),
       });
-      console.log(response);
+      // console.log(response);
       if (!response.ok) {
         setFail(true);
         setTimeout(() => {
           setFail(false);
         }, 1500);
       } else {
+        console.log("hi");
         setName("");
         setEmail("");
         setMessage("");
-        setShowModal(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
+          setShowModal(false);
         }, 1500);
       }
     } catch (err) {
@@ -150,6 +151,8 @@ export default function ContactModal({
       </div>
 
       {success && <SuccessMessage />}
+      {/* <SuccessMessage/>
+      <FailMessage /> */}
       {fail && <FailMessage />}
     </div>
   );
