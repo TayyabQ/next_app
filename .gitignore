@@ -42,3 +42,8 @@ next-env.d.ts
 
 #prevent custom prisma/output
 app/generated/prisma
+
+# Prisma
+.prisma/
+node_modules/.prisma/
+
