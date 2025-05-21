@@ -24,28 +24,35 @@ export default function ContactModal({
   const [message, setMessage] = useState<object>({});
 
   async function handleAPI() {
-    try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(message),
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        setFail(true);
-        setTimeout(()=>{setFail(false)},300)
-        throw new Error("Nope from frontend");
-      } else {
-        console.log("Message sent:", result);
-        setSuccess(true);
-        setTimeout(()=>{setSuccess(false)},300)
-      }
-    } catch (err) {
-      console.log("some error");
+  
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error("Server error:", result.error || `Request failed: ${response.status}`);
+      setFail(true);
+      setTimeout(() => { setFail(false); }, 300);
+      return;
     }
+
+    console.log("Message sent successfully:", result.message || result);
+    setSuccess(true);
+    setTimeout(() => { setSuccess(false); }, 300);
+
+  } catch (error) {
+    console.error("API call error:", error);
+    setFail(true);
+    setTimeout(() => { setFail(false); }, 300);
   }
+}
 
   function handleSubmission() {
     const newMessage = { name, email, messageBody };
@@ -55,7 +62,7 @@ export default function ContactModal({
       setName("");
       setEmail("");
       setMessageBody("");
-      console.log(newMessage);
+      console.log("Values are: " , newMessage);
       handleAPI();
       setShowModal(false);
     } else {
