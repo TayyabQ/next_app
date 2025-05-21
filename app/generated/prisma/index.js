@@ -108,7 +108,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\next_app\\app\\generated\\prisma",
+      "value": "/home/ibrahim/MERN Training/next_app/next_app/app/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -117,12 +117,20 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\next_app\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/ibrahim/MERN Training/next_app/next_app/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -145,8 +153,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n",
-  "inlineSchemaHash": "1ae29d93f383b729172ad29bd5a4aca42e2469b404b4c530eabc77a53b0fbd75",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../app/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\", \"windows\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n",
+  "inlineSchemaHash": "a414f85fdb266c5eee9549a110bdb0085783dbc16110b9fdc0e567801d51a4b5",
   "copyEngine": true
 }
 
@@ -183,6 +191,14 @@ warnEnvConflicts({
 const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "app/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "app/generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
