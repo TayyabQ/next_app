@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "prisma": {
-    "schema": "app/routes/prisma/SchemaModels.prisma"
+    "schema": "app/orm/prisma/SchemaModels.prisma"
   },
   "scripts": {
     "dev": "next dev",

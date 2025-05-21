@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import ContactModal from "./Modal/contact-modal";
+import ContactModal from "../Modal/contact-modal";
 import { useState } from "react";
 
 export default function Contact() {

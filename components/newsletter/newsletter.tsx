@@ -15,7 +15,7 @@ export default function NewsLetter() {
     email: string;
   }) => {
     try {
-      const response = await fetch("/api/subscribe", {
+      const response = await fetch("/routes/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
