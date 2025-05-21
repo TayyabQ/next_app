@@ -133,7 +133,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\next_app\\app\\routes\\app\\generated\\prisma",
+      "value": "/home/ibrahim/MERN Training/next_app/next_app/app/routes/app/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -142,12 +142,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\next_app\\app\\routes\\prisma\\SchemaModels.prisma",
+    "sourceFilePath": "/home/ibrahim/MERN Training/next_app/next_app/app/routes/prisma/SchemaModels.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
