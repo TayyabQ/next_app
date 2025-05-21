@@ -1,4 +1,4 @@
-import { PrismaClient } from "../app/routes/app/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
 declare global {
   var prisma: PrismaClient | undefined;
