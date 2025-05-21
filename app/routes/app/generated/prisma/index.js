@@ -152,7 +152,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -170,8 +170,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel NewsletterSubscription {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String   @unique\n  createdAt DateTime @default(now())\n}\n\nmodel ContactUsSchema {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String\n  message   String\n  createdAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "ef241b867a4b6a97b8b3a960935b079ec634514011eb7f0ee407c45ce2930955",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel NewsletterSubscription {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String   @unique\n  createdAt DateTime @default(now())\n}\n\nmodel ContactUsSchema {\n  id        Int      @id @unique @default(autoincrement())\n  name      String\n  email     String\n  message   String\n  createdAt DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "eb3287020b207584c111521e1330e65574dbcb45c56c48ec0231c9257940a215",
   "copyEngine": true
 }
 
