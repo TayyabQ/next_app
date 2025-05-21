@@ -22,26 +22,6 @@ export default function ContactModal({
   const [success, setSuccess] = useState<boolean>(false);
   const [fail, setFail] = useState<boolean>(false);
 
-<<<<<<< HEAD
-  async function handleAPI() {
-  
-  try {
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(message),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      console.error("Server error:", result.error || `Request failed: ${response.status}`);
-      setFail(true);
-      setTimeout(() => { setFail(false); }, 300);
-      return;
-=======
   async function handleAPI(newMessage: object) {
     try {
       const response = await fetch("/api/contact", {
@@ -69,36 +49,15 @@ export default function ContactModal({
       }
     } catch (err) {
       console.log("Something went wrong: ", err);
->>>>>>> cc566ca214a59e233d029273e3b75825fe087cbe
     }
-
-    console.log("Message sent successfully:", result.message || result);
-    setSuccess(true);
-    setTimeout(() => { setSuccess(false); }, 300);
-
-  } catch (error) {
-    console.error("API call error:", error);
-    setFail(true);
-    setTimeout(() => { setFail(false); }, 300);
   }
-}
 
   function handleSubmission() {
     const newMessage = { name, email, message };
     const result = formSchema.safeParse(newMessage);
     if (result.success) {
-<<<<<<< HEAD
-      setMessage(newMessage);
-      setName("");
-      setEmail("");
-      setMessageBody("");
-      console.log("Values are: " , newMessage);
-      handleAPI();
-      setShowModal(false);
-=======
       console.log("Message sent:", result);
       handleAPI(newMessage);
->>>>>>> cc566ca214a59e233d029273e3b75825fe087cbe
     } else {
       console.log("Validation Error: ", result.error.format());
       const newError = result.error.format().email?._errors[0];

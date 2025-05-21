@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email } = body as SubscribeRequestBody;
 
-    if (!name || !email) {
+    if (!name || !name.trim() || !email || !email.trim()) {
       return NextResponse.json(
         { error: "Name and email are required." },
         { status: 400 }
