@@ -43,12 +43,12 @@ export default function NewsLetter() {
 
   return (
     <>
-      <div className="relative flex flex-col sm:min-h-screen min-h-150 w-full md:max-w-[640px] md:min-h-[720px] bg-gradient-to-r from-[#60A5FA] to-[#3B82F6] overflow-hidden shadow-2xl">
+      <div className="relative flex flex-col sm:min-h-screen min-h-150 w-full bg-gradient-to-r from-[#60A5FA] to-[#3B82F6] overflow-hidden shadow-2xl">
         <div className="flex-grow flex flex-col justify-center items-center p-6 sm:p-8 text-center z-10">
           <img src="/NewsletterFrame.png" alt="Message Icon" width={60} height={60} className="mb-5"/>
-          <h1 className="font-semibold text-3xl text-white ">Join Our Newsletter</h1>
-          <p className="text-lg text-neutral-100 mb-5">Stay updated with our latest news and offers!</p>
-          <button onClick={handleSubscribeClick} className="text-blue-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-xl text-lg font-semibold rounded-lg hover:cursor-pointer">Subscribe</button>
+          <h1 className="font-semibold text-3xl 2xl:text-4xl text-white ">Join Our Newsletter</h1>
+          <p className="text-lg 2xl:text-xl text-neutral-100 mb-5">Stay updated with our latest news and offers!</p>
+          <button onClick={handleSubscribeClick} className="text-blue-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-xl text-lg 2xl:text-2xl font-semibold rounded-lg hover:cursor-pointer">Subscribe</button>
         </div>
 
         {showForm && (
