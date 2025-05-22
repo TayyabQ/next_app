@@ -1,7 +1,7 @@
 "use client";
 
+import ContactModal from "@/components/contact-form";
 import Image from "next/image";
-import ContactModal from "../../../components/contact-modal";
 import { useState } from "react";
 
 export default function Contact() {
@@ -36,7 +36,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
-      {showModal && <ContactModal setShowModal={setShowModal} />}
+      {showModal && <ContactModal showModal={showModal} setShowModal={setShowModal} />}
     </>
   );
 }
