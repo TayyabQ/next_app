@@ -3,7 +3,7 @@ import Contact from '@/app/_components//contact-us/contact';
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col lg:flex-row justify-center mt-20">
+      <div className="min-h-screen flex flex-col md:flex-row justify-center">
           <NewsLetter/>
           <Contact/>
         </div>
