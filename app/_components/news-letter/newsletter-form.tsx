@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent, Dispatch, SetStateAction } from "react";
+// import Form from "@/components/form";
 import Button from "../../../components/button";
 
 interface FormProps {
@@ -26,6 +27,7 @@ export default function Form({ nameLabel, emailLabel, onSubmit }: FormProps) {
 
   return (
     <div>
+      {/* <Form/> */}
       <h3 className="text-2xl font-bold text-center text-blue-600">
         Subscribe
       </h3>
