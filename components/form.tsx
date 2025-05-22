@@ -1,110 +1,47 @@
-"use client";
-
-import { useState, FormEvent, Dispatch, SetStateAction } from "react";
 import Button from "./button";
-import Modal from "./modal";
+import FormField from "./formField";
 
 interface FormProps {
-  nameLabel: string;
-  emailLabel: string;
-  messageLabel?: string;
+  entries: {
+    label: string;
+    value: any;
+    type: string;
+    element: "input" | "textarea" | null;
+    id: string;
+    placeholder: string;
+  }[];
+  heading:string;
+  theme: string;
   onSubmit: (data: { name: string; email: string }) => void;
-  showForm: boolean;
-  setShowForm: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Form({
-  nameLabel,
-  emailLabel,
-  messageLabel,
-  onSubmit,
-  showForm,
-  setShowForm,
-}: FormProps) {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      alert("Please fill in all fields.");
-      return;
-    }
-    onSubmit({ name, email });
-  };
+export default function Form(props: FormProps) {
+  const handleSubmit = () => {};
 
   return (
-    <Modal
-      isOpen={showForm}
-      onClose={() => {
-        setShowForm(false);
-      }}
-    >
+    <>
       <h3 className="text-2xl font-bold text-center text-blue-600">
-        Subscribe
+        {props.heading}
       </h3>
-      <form onSubmit={handleSubmit} className="p-4">
+      <form onSubmit={handleSubmit} className="text-left flex flex-col gap-0.5">
         <div>
-          <label
-            htmlFor="form-name"
-            className="btext-lg text-gray-500 font-semibold"
-          >
-            {nameLabel}
-          </label>
-          <input
-            type="text"
-            id="form-name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600"
-            placeholder="Enter your name"
-          />
+          {props.entries.map((key, index) => (
+            <div key={index}>
+              <FormField
+                label={key.label}
+                element={key.element}
+                type={key.type}
+                id={key.id}
+                value={key.value}
+                theme={props.theme}
+                placeholder={key.placeholder}
+                onChange={(e) => {}}
+              />
+            </div>
+          ))}
         </div>
-        <div>
-          <label
-            htmlFor="form-email"
-            className="text-lg text-gray-500 font-semibold"
-          >
-            {emailLabel}
-          </label>
-          <input
-            type="email"
-            id="form-email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600"
-            placeholder="Enter your email"
-          />
-        </div>
-        {message && (
-          <div>
-            <label
-              htmlFor="form-email"
-              className="text-lg text-gray-500 font-semibold"
-            >
-              {messageLabel}
-            </label>
-            <input
-              type="email"
-              id="form-email"
-              name="email"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-              className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600"
-              placeholder="Enter your message"
-            />
-          </div>
-        )}
-        <div className="flex justify-center space-x-3 pt-2">
-          <Button label={"Submit"} theme={"blue"} type={2} />
-        </div>
+        <Button label={"Submit"} theme={props.theme} type={2} />
       </form>
-    </Modal>
+    </>
   );
 }

@@ -3,6 +3,7 @@
 import Button from "@/components/button";
 import Form from "./newsletter-form";
 import { useState } from "react";
+import Modal from "@/components/modal";
 
 export default function NewsLetter() {
   const [showForm, setShowForm] = useState(false);
@@ -55,16 +56,28 @@ export default function NewsLetter() {
           <p className="text-lg 2xl:text-xl text-neutral-100 mb-5">
             Stay updated with our latest news and offers!
           </p>
-          <Button label="Subscribe" theme="blue" type={1} func={handleSubscribeClick}/>
+          <Button
+            label="Subscribe"
+            theme="blue"
+            type={1}
+            func={handleSubscribeClick}
+          />
         </div>
 
-        <Form
-          nameLabel="Your Name"
-          emailLabel="Your Email Address"
-          showForm={showForm}
-          setShowForm={setShowForm}
-          onSubmit={handleFormSubmit}
-        />
+        <Modal
+          isOpen={showForm}
+          onClose={() => {
+            setShowForm(false);
+          }}
+        >
+          <Form
+            nameLabel="Your Name"
+            emailLabel="Your Email Address"
+            showForm={showForm}
+            setShowForm={setShowForm}
+            onSubmit={handleFormSubmit}
+          />
+        </Modal>
 
         <div className="absolute bottom-0 left-0 p-3 sm:p-5 opacity-80">
           <img
@@ -75,6 +88,7 @@ export default function NewsLetter() {
             className="w-28 h-auto sm:w-36 md:w-[185px]"
           />
         </div>
+        
       </div>
     </>
   );

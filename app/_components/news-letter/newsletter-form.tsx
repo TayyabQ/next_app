@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, FormEvent, Dispatch, SetStateAction } from "react";
-import Modal from "../../../components/modal";
-import Button from '../../../components/button';
+import Button from "../../../components/button";
 
 interface FormProps {
   nameLabel: string;
@@ -12,13 +11,7 @@ interface FormProps {
   setShowForm: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Form({
-  nameLabel,
-  emailLabel,
-  onSubmit,
-  showForm,
-  setShowForm,
-}: FormProps) {
+export default function Form({ nameLabel, emailLabel, onSubmit }: FormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -32,16 +25,11 @@ export default function Form({
   };
 
   return (
-    <Modal
-      isOpen={showForm}
-      onClose={() => {
-        setShowForm(false);
-      }}
-    >
+    <div>
       <h3 className="text-2xl font-bold text-center text-blue-600">
         Subscribe
       </h3>
-      <form onSubmit={handleSubmit} className="p-4">
+      <form onSubmit={handleSubmit} className="text-left flex flex-col gap-0.5">
         <div>
           <label
             htmlFor="form-name"
@@ -78,10 +66,8 @@ export default function Form({
             placeholder="Enter your email"
           />
         </div>
-        <div className="flex justify-center space-x-3 pt-2">
-          <Button label={"Submit"} theme={"blue"}  type={2}/>
-        </div>
+        <Button label={"Submit"} theme={"blue"} type={2} />
       </form>
-    </Modal>
+    </div>
   );
 }
