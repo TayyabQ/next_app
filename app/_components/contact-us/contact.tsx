@@ -18,10 +18,10 @@ export default function Contact() {
               width={60}
               height={60}
             />
-            <h1 className="text-white text-3xl xl:text-4xl font-semibold mt-5">
+            <h1 className="text-white text-3xl 2xl:text-4xl font-semibold mt-5">
               Contact Support
             </h1>
-            <p className="text-white text-lg xl:text-xl mb-5">
+            <p className="text-white text-lg 2xl:text-xl mb-5">
               Let us know how we can help
             </p>
             <button
@@ -29,7 +29,7 @@ export default function Contact() {
                 e.preventDefault();
                 setShowModal(true);
               }}
-              className="text-green-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-xl text-lg xl:text-2xl font-semibold rounded-lg hover:cursor-pointer "
+              className="text-green-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-xl text-lg 2xl:text-2xl font-semibold rounded-lg hover:cursor-pointer "
             >
               Contact Us
             </button>
