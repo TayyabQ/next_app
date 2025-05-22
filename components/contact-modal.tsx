@@ -20,38 +20,26 @@ export default function ContactModal({
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<boolean>(false);
-  const [fail, setFail] = useState<boolean>(false);
+  const { Toast, showToast } = useToast();
 
   async function handleAPI(newMessage: object) {
-    function showToast({message,theme}:{message:string,theme:string}) {
-      useToast({message,theme});
-    }
     try {
-      const response = await fetch("/routes/contac", {
+      const response = await fetch("/routes/contact", {
         method: "POST",
         headers: {
-          "Content-Type": "application/jso",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newMessage),
       });
       if (!response.ok) {
-        showToast({ message: "Something went wrong!", theme: "red" })
-        // setFail(true);
-        // setTimeout(() => {
-        //   setFail(false);
-        // }, 1500);
+        console.log("fail toast block reached");
+        showToast("Something went wrong", "red");
       } else {
         console.log("hi");
         setName("");
         setEmail("");
         setMessage("");
-        // useToast({ message: "Message sent successfully!", theme: "green" });
-        // setSuccess(true);
-        // setTimeout(() => {
-        //   setSuccess(false);
-        //   setShowModal(false);
-        // }, 1500);
+        showToast("Successfully sent the message!","green")
       }
     } catch (err) {
       console.log("Something went wrong: ", err);
@@ -62,7 +50,6 @@ export default function ContactModal({
     const newMessage = { name, email, message };
     const result = formSchema.safeParse(newMessage);
     if (result.success) {
-      console.log("Message sent:", result);
       handleAPI(newMessage);
     } else {
       console.log("Validation Error: ", result.error.format());
@@ -154,11 +141,9 @@ export default function ContactModal({
           </div>
         </div>
       </div>
-
-      {success && <SuccessMessage />}
-      {/* <SuccessMessage/>
-      <FailMessage /> */}
-      {fail && <FailMessage />}
+      <Toast />
+      {/* {success && <SuccessMessage />}
+      {fail && <FailMessage />} */}
     </div>
   );
 }
