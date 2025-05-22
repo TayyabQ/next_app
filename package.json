@@ -2,8 +2,12 @@
   "name": "next_app",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "schema": "app/orm/prisma/SchemaModels.prisma"
+  },
   "scripts": {
     "dev": "next dev",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,12 +23,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19.1.5",
-    "prisma": "^6.8.2",
-    "tailwindcss": "^4",
     "next": "15.3.2",
+    "prisma": "^6.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "zod": "^3.25.7",
-    "typescript": "^5"
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "zod": "^3.25.7"
   }
 }
