@@ -1,8 +1,9 @@
 "use client";
 
-import ContactModal from "@/components/contact-form";
+import ContactModal from "./contact-form";
 import Image from "next/image";
 import { useState } from "react";
+import Button from "../../../components/button";
 
 export default function Contact() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -24,19 +25,21 @@ export default function Contact() {
             <p className="text-white text-lg 2xl:text-xl mb-5">
               Let us know how we can help
             </p>
-            <button
-              onClick={(e) => {
+            <Button
+              label="Contact Us"
+              theme="green"
+              type={1}
+              func={(e) => {
                 e.preventDefault();
                 setShowModal(true);
               }}
-              className="text-green-500 bg-white py-1 lg:py-2 px-2 lg:px-4 lg:text-xl text-lg 2xl:text-2xl font-semibold rounded-lg hover:cursor-pointer "
-            >
-              Contact Us
-            </button>
+            />
           </div>
         </div>
       </div>
-      {showModal && <ContactModal showModal={showModal} setShowModal={setShowModal} />}
+      {showModal && (
+        <ContactModal showModal={showModal} setShowModal={setShowModal} />
+      )}
     </>
   );
 }
