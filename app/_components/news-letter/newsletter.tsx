@@ -1,6 +1,6 @@
 "use client";
 
-import Form from "../form";
+import Form from "../../../components/form";
 import { useState } from "react";
 
 export default function NewsLetter() {

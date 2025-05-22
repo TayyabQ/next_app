@@ -31,7 +31,6 @@ export default function ContactModal({
         },
         body: JSON.stringify(newMessage),
       });
-      // console.log(response);
       if (!response.ok) {
         setFail(true);
         setTimeout(() => {
