@@ -21,6 +21,7 @@ export default function NewsLetterForm({
   });
 
   function handleSubmit(data: any) {
+    // console.log(data)
     const result = formSchema.safeParse(data);
     if (result.success) {
       //usefetch(result.data)
@@ -59,7 +60,7 @@ export default function NewsLetterForm({
               placeholder: "Enter your email",
             },
           ]}
-          onSubmit={() => {}}
+          onSubmit={handleSubmit}
         />
       </Modal>
     </div>

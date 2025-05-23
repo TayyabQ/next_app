@@ -50,6 +50,7 @@ export default function ContactForm({
   }
 
   function handleSubmit(data:any) {
+    // console.log(data)
     const result = formSchema.safeParse(data);
     if(result.success){
       //usefetch(result.data)
