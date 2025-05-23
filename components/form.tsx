@@ -1,48 +1,100 @@
-"use client";
+import { useState } from "react";
+import Button from "./button";
+import FormField from "./formField";
+import FormHeading from "./formHeading";
+import { ZodTypeAny, ZodError } from "zod";
 
-import { useState, FormEvent } from "react";
+type FormData = {
+  [key: string]: string;
+};
+
+type FormErrors = {
+  [key: string]: string;
+};
 
 interface FormProps {
-  nameLabel: string;
-  emailLabel: string;
-  onSubmit: (data: { name: string; email: string }) => void;
-  onClose: () => void;
+  entries: {
+    label: string;
+    value: any;
+    type: string;
+    element: "input" | "textarea" | null;
+    id: string;
+    placeholder: string;
+  }[];
+  heading: string;
+  theme: string;
+  onSubmit: (data: FormData) => void;
+  formSchema?: ZodTypeAny;
 }
 
-export default function Form({
-  nameLabel,
-  emailLabel,
-  onSubmit,
-  onClose,
-}: FormProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+export default function Form(props: FormProps) {
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const initialFormData = Object.fromEntries(
+    props.entries.map((entry) => [entry.id, ""])
+  );
+
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  function extractErrors(error: ZodError): FormErrors {
+    const errorMap: FormErrors = {};
+
+    error.issues.forEach((issue) => {
+      const key = issue.path[0]?.toString();
+      if (key) {
+        errorMap[key] = issue.message;
+      }
+    });
+
+    return errorMap;
+  }
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) {
-      alert("Please fill in all fields.");
-      return;
+
+    if (!props.formSchema) return;
+
+    const result = props.formSchema.safeParse(formData);
+
+    if (result.success) {
+      setErrors({});
+      props.onSubmit(formData);
+    } else {
+      const parsedErrors = extractErrors(result.error);
+      setErrors(parsedErrors);
     }
-    onSubmit({ name, email });
   };
 
   return (
-    <div className="flex flex-col bg-white rounded-lg shadow-xl z-30 w-full max-w-md mx-auto animate">
-      <button type="button" onClick={onClose} className="self-end text-sm font-medium text-gray-500 hover:bg-gray-200 rounded-md hover:cursor-pointer px-3 py-2 font-semibold">x</button>
-      <form onSubmit={handleSubmit} className="p-4">
+    <>
+      <FormHeading value={props.heading} color={props.theme} />
+      <form onSubmit={handleSubmit} className="text-left flex flex-col gap-0.5">
         <div>
-          <label htmlFor="form-name" className="block text-sm font-medium text-gray-700 mb-2">{nameLabel}</label>
-          <input type="text" id="form-name" name="name" value={name} onChange={(e) => setName(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 mb-3 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900" placeholder="Enter your name"/>
+          {props.entries.map((entry, index) => (
+            <div key={index}>
+              <FormField
+                label={entry.label}
+                element={entry.element}
+                type={entry.type}
+                id={entry.id}
+                value={formData[entry.id]}
+                theme={props.theme}
+                placeholder={entry.placeholder}
+                onChange={handleChange}
+                error={errors[entry.id]}
+              />
+            </div>
+          ))}
         </div>
-        <div>
-          <label htmlFor="form-email" className="block text-sm font-medium text-gray-700 mb-2 ">{emailLabel}</label>
-          <input type="email" id="form-email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 block w-full px-3 py-2 border mb-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900" placeholder="Enter your email"/>
-        </div>
-        <div className="flex justify-center space-x-3 pt-2">
-          <button type="submit" className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit</button>
-        </div>
+        <Button label="Submit" theme={props.theme} type={2} />
       </form>
-    </div>
+    </>
   );
 }
