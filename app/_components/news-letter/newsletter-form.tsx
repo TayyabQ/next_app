@@ -17,7 +17,7 @@ export default function NewsLetterForm({
 
   const formSchema = z.object({
     name: z.string().nonempty("Name is required!"),
-    email: z.string().nonempty("Email is required!"),
+    email: z.string().email().nonempty("Email is required!"),
   });
 
   function handleSubmit(data: any) {

@@ -1,5 +1,3 @@
-import useToast from "./useToast";
-
 interface FetchProps {
   url: string;
   method: string;
@@ -7,8 +5,6 @@ interface FetchProps {
   onFailure: () => void;
   onSuccess: () => void;
 }
-
-//useFetch(url:string,method:string,body:object,onComplete:()=>void)
 
 export default function useFetch() {
 
