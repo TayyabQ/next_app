@@ -1,10 +1,9 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Form from "@/components/form";
 import Modal from "../../../components/modal";
 import * as z from "zod";
-import Message from "@/components/message";
 import useFetch from "@/hooks/useFetch";
 import useToast from "@/hooks/useToast";
 
@@ -16,7 +15,6 @@ export default function NewsLetterForm({
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
   const { fetchdata } = useFetch();
-  const [error, setError] = useState<string | undefined>("");
   const { Toast, showToast } = useToast();
 
   const formSchema = z.object({
@@ -25,25 +23,26 @@ export default function NewsLetterForm({
   });
 
   function handleSubmit(data: any) {
-    console.log(data)
+    console.log(data);
     const result = formSchema.safeParse(data);
     if (result.success) {
-      // fetchdata({
-      //   url: "/routes/subscribe",
-      //   method: "POST",
-      //   body: data,
-      //   onSuccess: () => {
-      //     console.log("Subscribed");
-      //     setShowModal(false);
-      //     showToast("Subscribed Successfully", "green");
-      //   },
-      //   onFailure: () => {
-      //     console.log("Something went wrong");
-      //     showToast("Something went wrong", "red");
-      //   },
-      // });
+      fetchdata({
+        url: "/routes/subscribe",
+        method: "POST",
+        body: data,
+        onSuccess: () => {
+          console.log("Subscribed");
+          showToast("Subscribed Successfully", "blue");
+          setTimeout(() => {
+            setShowModal(false);
+          }, 2000);
+        },
+        onFailure: () => {
+          console.log("Something went wrong");
+          showToast("Something went wrong", "red");
+        },
+      });
     } else {
-      setError(result.error.format.toString());
     }
   }
 

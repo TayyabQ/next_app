@@ -3,7 +3,6 @@
 import Button from "@/components/button";
 import { useState } from "react";
 import NewsLetterForm from "./newsletter-form";
-
 import MainHeading from "@/components/main_heading";
 import Heading from "@/components/heading";
 import Subheading from "@/components/subheading";
