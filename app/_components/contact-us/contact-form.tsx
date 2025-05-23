@@ -5,6 +5,7 @@ import useToast from "@/hooks/useToast";
 import Modal from "../../../components/modal";
 import Form from "../../../components/form";
 import Message from "@/components/message";
+import useFetch from "@/hooks/useFetch";
 
 export default function ContactForm({
   showModal,
@@ -14,50 +15,31 @@ export default function ContactForm({
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
   const formSchema = z.object({
-    name: z.string().nonempty("Name cannot be empty!"),
-    email: z.string().email().nonempty("Email cannot be empty!"),
-    message: z.string().nonempty("Message body cannot be empty!"),
+    name: z.string().trim().nonempty("Name cannot be empty!"),
+    email: z.string().email().trim().nonempty("Email cannot be empty!"),
+    message: z.string().trim().nonempty("Message body cannot be empty!"),
   });
 
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string | undefined>("");
   const { Toast, showToast } = useToast();
+  const { fetchdata } = useFetch();
 
-  async function handleAPI(newMessage: object) {
-    try {
-      const response = await fetch("/routes/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMessage),
-      });
-      if (!response.ok) {
-        console.log("fail toast block reached");
-        showToast("Something went wrong", "red");
-      } else {
-        console.log("hi");
-        setName("");
-        setEmail("");
-        setMessage("");
-        showToast("Successfully sent the message!", "green");
-      }
-    } catch (err) {
-      console.log("Something went wrong:", err);
-    }
-  }
-
-  function handleSubmit(data:any) {
-    // console.log(data)
-    const result = formSchema.safeParse(data);
-    if(result.success){
-      //usefetch(result.data)
-    } else{
-      console.log(result.error)
-      setError(result.error.format.toString());
-    }
+  function handleSubmit(data: any) {
+    console.log(data);
+    // fetchdata({
+    //   url: "/routes/contact",
+    //   method: "POST",
+    //   body: data,
+    //   onSuccess: () => {
+    //     console.log("Message Sent");
+    //     setShowModal(false);
+    //     showToast("Message sent Successfully", "green");
+    //   },
+    //   onFailure: () => {
+    //     console.log("Something went wrong");
+    //     showToast("Something went wrong", "red");
+    //   },
+    // });
   }
 
   return (
@@ -67,10 +49,13 @@ export default function ContactForm({
         onClose={() => {
           setShowModal(false);
         }}
-      >{error && <Message message={error}/>}
+      >
+        <Toast />
+        {error && <Message message={error} />}
         <Form
           heading="Contact Us"
           theme="green"
+          formSchema={formSchema}
           entries={[
             {
               label: "Name",

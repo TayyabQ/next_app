@@ -2,8 +2,13 @@ import { useState } from "react";
 import Button from "./button";
 import FormField from "./formField";
 import FormHeading from "./formHeading";
+import { ZodTypeAny, ZodError } from "zod";
 
 type FormData = {
+  [key: string]: string;
+};
+
+type FormErrors = {
   [key: string]: string;
 };
 
@@ -19,14 +24,30 @@ interface FormProps {
   heading: string;
   theme: string;
   onSubmit: (data: FormData) => void;
+  formSchema?: ZodTypeAny;
 }
 
 export default function Form(props: FormProps) {
+  const [errors, setErrors] = useState<FormErrors>({});
+
   const initialFormData = Object.fromEntries(
     props.entries.map((entry) => [entry.id, ""])
   );
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  function extractErrors(error: ZodError): FormErrors {
+    const errorMap: FormErrors = {};
+
+    error.issues.forEach((issue) => {
+      const key = issue.path[0]?.toString();
+      if (key) {
+        errorMap[key] = issue.message;
+      }
+    });
+
+    return errorMap;
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,12 +58,23 @@ export default function Form(props: FormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.onSubmit(formData); 
+
+    if (!props.formSchema) return;
+
+    const result = props.formSchema.safeParse(formData);
+
+    if (result.success) {
+      setErrors({});
+      props.onSubmit(formData);
+    } else {
+      const parsedErrors = extractErrors(result.error);
+      setErrors(parsedErrors);
+    }
   };
 
   return (
     <>
-      <FormHeading value={props.heading} color={props.theme}/>
+      <FormHeading value={props.heading} color={props.theme} />
       <form onSubmit={handleSubmit} className="text-left flex flex-col gap-0.5">
         <div>
           {props.entries.map((entry, index) => (
@@ -56,6 +88,7 @@ export default function Form(props: FormProps) {
                 theme={props.theme}
                 placeholder={entry.placeholder}
                 onChange={handleChange}
+                error={errors[entry.id]}
               />
             </div>
           ))}

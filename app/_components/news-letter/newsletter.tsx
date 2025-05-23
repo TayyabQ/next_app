@@ -8,34 +8,9 @@ import MainHeading from "@/components/main_heading";
 import Heading from "@/components/heading";
 import Subheading from "@/components/subheading";
 import Icon from "@/components/icon";
-import useFetch from "@/hooks/useFetch";
-import useToast from "@/hooks/useToast";
 
 export default function NewsLetter() {
-  const { fetchdata } = useFetch();
-  const { Toast, showToast } = useToast();
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  function handleSubmit(data: any) {
-    let body = {
-      name: "some name",
-      email: "some@name.com",
-    };
-    fetchdata({
-      url: "/routes/subscribe",
-      method: "POST",
-      body: body,
-      onSuccess: () => {
-        console.log("Subscribed");
-        setShowModal(false);
-        showToast("Subscribed Successfully", "green");
-      },
-      onFailure: () => {
-        console.log("Something went wrong");
-        showToast("Something went wrong", "red");
-      },
-    });
-  }
 
   return (
     <>
@@ -77,7 +52,6 @@ export default function NewsLetter() {
           className="w-28 h-auto sm:w-36 md:w-[185px]"
         />
       </div>
-      <Toast />
     </>
   );
 }

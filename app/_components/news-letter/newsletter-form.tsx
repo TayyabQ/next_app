@@ -1,10 +1,12 @@
 "use client";
 
-import { Dispatch, SetStateAction,useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Form from "@/components/form";
 import Modal from "../../../components/modal";
 import * as z from "zod";
 import Message from "@/components/message";
+import useFetch from "@/hooks/useFetch";
+import useToast from "@/hooks/useToast";
 
 export default function NewsLetterForm({
   showModal,
@@ -13,20 +15,34 @@ export default function NewsLetterForm({
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { fetchdata } = useFetch();
   const [error, setError] = useState<string | undefined>("");
+  const { Toast, showToast } = useToast();
 
   const formSchema = z.object({
-    name: z.string().nonempty("Name is required!"),
-    email: z.string().email().nonempty("Email is required!"),
+    name: z.string().trim().nonempty("Name is required!"),
+    email: z.string().email().trim().nonempty("Email is required!"),
   });
 
   function handleSubmit(data: any) {
     console.log(data)
     const result = formSchema.safeParse(data);
     if (result.success) {
-      //usefetch(result.data)
+      // fetchdata({
+      //   url: "/routes/subscribe",
+      //   method: "POST",
+      //   body: data,
+      //   onSuccess: () => {
+      //     console.log("Subscribed");
+      //     setShowModal(false);
+      //     showToast("Subscribed Successfully", "green");
+      //   },
+      //   onFailure: () => {
+      //     console.log("Something went wrong");
+      //     showToast("Something went wrong", "red");
+      //   },
+      // });
     } else {
-      console.log(result.error);
       setError(result.error.format.toString());
     }
   }
@@ -38,10 +54,12 @@ export default function NewsLetterForm({
         onClose={() => {
           setShowModal(false);
         }}
-      >{error && <Message message={error}/>}
+      >
+        <Toast />
         <Form
           heading="Subscribe"
           theme="blue"
+          formSchema={formSchema}
           entries={[
             {
               label: "Name",
