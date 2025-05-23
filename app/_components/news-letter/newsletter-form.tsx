@@ -1,8 +1,10 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction,useState } from "react";
 import Form from "@/components/form";
 import Modal from "../../../components/modal";
+import * as z from "zod";
+import Message from "@/components/message";
 
 export default function NewsLetterForm({
   showModal,
@@ -11,8 +13,23 @@ export default function NewsLetterForm({
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [error, setError] = useState<string | undefined>("");
 
-  const handleSubmit = () => {};
+  const formSchema = z.object({
+    name: z.string().nonempty("Name is required!"),
+    email: z.string().nonempty("Email is required!"),
+  });
+
+  function handleSubmit(data: any) {
+    // console.log(data)
+    const result = formSchema.safeParse(data);
+    if (result.success) {
+      //usefetch(result.data)
+    } else {
+      console.log(result.error);
+      setError(result.error.format.toString());
+    }
+  }
 
   return (
     <div>
@@ -21,7 +38,7 @@ export default function NewsLetterForm({
         onClose={() => {
           setShowModal(false);
         }}
-      >
+      >{error && <Message message={error}/>}
         <Form
           heading="Subscribe"
           theme="blue"
@@ -43,7 +60,7 @@ export default function NewsLetterForm({
               placeholder: "Enter your email",
             },
           ]}
-          onSubmit={() => {}}
+          onSubmit={handleSubmit}
         />
       </Modal>
     </div>
