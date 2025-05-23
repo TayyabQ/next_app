@@ -4,6 +4,7 @@ import * as z from "zod";
 import useToast from "@/hooks/useToast";
 import Modal from "../../../components/modal";
 import Form from "../../../components/form";
+import Message from "@/components/message";
 
 export default function ContactForm({
   showModal,
@@ -48,15 +49,13 @@ export default function ContactForm({
     }
   }
 
-  function handleSubmission() {
-    const newMessage = { name, email, message };
-    const result = formSchema.safeParse(newMessage);
-    if (result.success) {
-      handleAPI(newMessage);
-    } else {
-      console.log("Validation Error: ", result.error.format());
-      const newError = result.error.format().email?._errors[0];
-      setError(newError);
+  function handleSubmit(data:any) {
+    const result = formSchema.safeParse(data);
+    if(result.success){
+      //usefetch(result.data)
+    } else{
+      console.log(result.error)
+      setError(result.error.format.toString());
     }
   }
 
@@ -67,7 +66,7 @@ export default function ContactForm({
         onClose={() => {
           setShowModal(false);
         }}
-      >
+      >{error && <Message message={error}/>}
         <Form
           heading="Contact Us"
           theme="green"
@@ -87,7 +86,8 @@ export default function ContactForm({
               element: "input",
               id: "email",
               placeholder: "Enter your email",
-            },{
+            },
+            {
               label: "Message",
               value: "message",
               type: "text",
@@ -96,7 +96,7 @@ export default function ContactForm({
               placeholder: "Enter your message",
             },
           ]}
-          onSubmit={() => {}}
+          onSubmit={handleSubmit}
         />
       </Modal>
       <Toast />
