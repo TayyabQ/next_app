@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Form from "@/components/form";
 import Modal from "../../../components/modal";
 
@@ -11,16 +11,8 @@ export default function NewsLetterForm({
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!name.trim() || !email.trim()) {
-      alert("Please fill in all fields.");
-      return;
-    }
-  };
+  const handleSubmit = () => {};
 
   return (
     <div>
@@ -49,7 +41,7 @@ export default function NewsLetterForm({
               element: "input",
               id: "email",
               placeholder: "Enter your email",
-            }
+            },
           ]}
           onSubmit={() => {}}
         />

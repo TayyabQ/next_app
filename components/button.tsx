@@ -25,7 +25,7 @@ const Button = ({ label, theme, type, func }: CustomButtonProps) => {
       styling = `mt-3 self-center bg-gray-600 text-white p-2 lg:px-5 lg:w-60 md:w-40 sm:w-40 text-lg rounded-md hover:cursor-pointer hover:bg-gray-800 w-fit font-semibold`;
     }
   } else {
-    styling = `mt-3 self-center bg-${color}-600 text-white p-2 lg:px-5 lg:w-60 md:w-40 sm:w-40 text-lg rounded-md hover:cursor-pointer hover:bg-${color}-800 w-fit font-semibold`;
+    styling = `mt-3 self-center bg-gray-600 text-white p-2 lg:px-5 lg:w-60 md:w-40 sm:w-40 text-lg rounded-md hover:cursor-pointer hover:bg-gray-800 w-fit font-semibold`;
   }
   return (
     <button className={styling} onClick={func}>
