@@ -1,110 +1,67 @@
-"use client";
-
-import { useState, FormEvent, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import Button from "./button";
-import Modal from "./modal";
+import FormField from "./formField";
+import FormHeading from "./formHeading";
+
+type FormData = {
+  [key: string]: string;
+};
 
 interface FormProps {
-  nameLabel: string;
-  emailLabel: string;
-  messageLabel?: string;
-  onSubmit: (data: { name: string; email: string }) => void;
-  showForm: boolean;
-  setShowForm: Dispatch<SetStateAction<boolean>>;
+  entries: {
+    label: string;
+    value: any;
+    type: string;
+    element: "input" | "textarea" | null;
+    id: string;
+    placeholder: string;
+  }[];
+  heading: string;
+  theme: string;
+  onSubmit: (data: FormData) => void;
 }
 
-export default function Form({
-  nameLabel,
-  emailLabel,
-  messageLabel,
-  onSubmit,
-  showForm,
-  setShowForm,
-}: FormProps) {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+export default function Form(props: FormProps) {
+  const initialFormData = Object.fromEntries(
+    props.entries.map((entry) => [entry.id, ""])
+  );
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) {
-      alert("Please fill in all fields.");
-      return;
-    }
-    onSubmit({ name, email });
+    props.onSubmit(formData); 
   };
 
   return (
-    <Modal
-      isOpen={showForm}
-      onClose={() => {
-        setShowForm(false);
-      }}
-    >
-      <h3 className="text-2xl font-bold text-center text-blue-600">
-        Subscribe
-      </h3>
-      <form onSubmit={handleSubmit} className="p-4">
+    <>
+      <FormHeading value={props.heading} color={props.theme}/>
+      <form onSubmit={handleSubmit} className="text-left flex flex-col gap-0.5">
         <div>
-          <label
-            htmlFor="form-name"
-            className="btext-lg text-gray-500 font-semibold"
-          >
-            {nameLabel}
-          </label>
-          <input
-            type="text"
-            id="form-name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600"
-            placeholder="Enter your name"
-          />
+          {props.entries.map((entry, index) => (
+            <div key={index}>
+              <FormField
+                label={entry.label}
+                element={entry.element}
+                type={entry.type}
+                id={entry.id}
+                value={formData[entry.id]}
+                theme={props.theme}
+                placeholder={entry.placeholder}
+                onChange={handleChange}
+              />
+            </div>
+          ))}
         </div>
-        <div>
-          <label
-            htmlFor="form-email"
-            className="text-lg text-gray-500 font-semibold"
-          >
-            {emailLabel}
-          </label>
-          <input
-            type="email"
-            id="form-email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600"
-            placeholder="Enter your email"
-          />
-        </div>
-        {message && (
-          <div>
-            <label
-              htmlFor="form-email"
-              className="text-lg text-gray-500 font-semibold"
-            >
-              {messageLabel}
-            </label>
-            <input
-              type="email"
-              id="form-email"
-              name="email"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-              className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600"
-              placeholder="Enter your message"
-            />
-          </div>
-        )}
-        <div className="flex justify-center space-x-3 pt-2">
-          <Button label={"Submit"} theme={"blue"} type={2} />
-        </div>
+        <Button label="Submit" theme={props.theme} type={2} />
       </form>
-    </Modal>
+    </>
   );
 }

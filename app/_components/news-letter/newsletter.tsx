@@ -1,8 +1,8 @@
 "use client";
 
 import Button from "@/components/button";
-import Form from "./newsletter-form";
 import { useState } from "react";
+import NewsLetterForm from "./newsletter-form";
 
 import MainHeading from "@/components/main_heading";
 import Heading from "@/components/heading";
@@ -10,26 +10,19 @@ import Subheading from "@/components/subheading";
 import Icon from "@/components/icon";
 import useFetch from "@/hooks/useFetch";
 import useToast from "@/hooks/useToast";
+import Form from "@/components/form";
 
 export default function NewsLetter() {
   const [showForm, setShowForm] = useState(false);
   const { fetchdata } = useFetch();
-  const {Toast,showToast} = useToast()
-  const handleSubscribeClick = () => {
-    setShowForm(true);
-  };
+  const { Toast, showToast } = useToast();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  function handleFormSubmit(data: any) {
-    // let url = "";
-    // let method = "POST";
+  function handleSubmit(data: any) {
     let body = {
       name: "some name",
       email: "some@name.com",
     };
-    // let onComplete = ()=>{
-    //   //some logic
-    // }
-    // useFetch({url,method,body,onComplete})
     fetchdata({
       url: "/routes/subscribe",
       method: "POST",
@@ -37,12 +30,12 @@ export default function NewsLetter() {
       onSuccess: () => {
         console.log("Subscribed");
         setShowForm(false);
-        showToast("Subscribed Successfully","green")
+        showToast("Subscribed Successfully", "green");
       },
-      onFailure:()=>{
+      onFailure: () => {
         console.log("Something went wrong");
-        showToast("Something went wrong","red")
-      }
+        showToast("Something went wrong", "red");
+      },
     });
   }
 
@@ -67,17 +60,48 @@ export default function NewsLetter() {
             label="Subscribe"
             theme="blue"
             type={1}
-            func={handleSubscribeClick}
+            func={() => {
+              setShowModal(true);
+            }}
           />
         </MainHeading>
       </div>
+      {showModal && (
+        <NewsLetterForm showModal={showModal} setShowModal={setShowModal} />
+      )}
+
+      <div className="absolute bottom-0 left-0 p-3 sm:p-5 opacity-80">
+        <img
+          src="/NewsletterIcon.png"
+          alt="Decorative newsletter graphic"
+          width={185}
+          height={181}
+          className="w-28 h-auto sm:w-36 md:w-[185px]"
+        />
+      </div>
 
       <Form
-        nameLabel="Your Name"
-        emailLabel="Your Email Address"
-        showForm={showForm}
-        setShowForm={setShowForm}
-        onSubmit={handleFormSubmit}
+        heading="Contact Us"
+        theme="green"
+        entries={[
+          {
+            label: "Name",
+            value: "name",
+            type: "text",
+            element: "input",
+            id: "name",
+            placeholder: "Enter your name",
+          },
+          {
+            label: "Email",
+            value: "email",
+            type: "text",
+            element: "input",
+            id: "email",
+            placeholder: "Enter your email",
+          },
+        ]}
+        onSubmit={handleSubmit}
       />
 
       <div className="absolute bottom-0 left-0 p-3 sm:p-5 opacity-80">
@@ -89,7 +113,7 @@ export default function NewsLetter() {
           className="w-28 h-auto sm:w-36 md:w-[185px]"
         />
       </div>
-      <Toast/>
+      <Toast />
     </>
   );
 }

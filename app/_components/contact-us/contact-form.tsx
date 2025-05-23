@@ -3,9 +3,10 @@ import { useState } from "react";
 import * as z from "zod";
 import useToast from "@/hooks/useToast";
 import Modal from "../../../components/modal";
-import Button from "@/components/button";
+import Form from "../../../components/form";
+import Message from "@/components/message";
 
-export default function ContactModal({
+export default function ContactForm({
   showModal,
   setShowModal,
 }: {
@@ -48,15 +49,14 @@ export default function ContactModal({
     }
   }
 
-  function handleSubmission() {
-    const newMessage = { name, email, message };
-    const result = formSchema.safeParse(newMessage);
-    if (result.success) {
-      handleAPI(newMessage);
-    } else {
-      console.log("Validation Error: ", result.error.format());
-      const newError = result.error.format().email?._errors[0];
-      setError(newError);
+  function handleSubmit(data:any) {
+    // console.log(data)
+    const result = formSchema.safeParse(data);
+    if(result.success){
+      //usefetch(result.data)
+    } else{
+      console.log(result.error)
+      setError(result.error.format.toString());
     }
   }
 
@@ -67,65 +67,38 @@ export default function ContactModal({
         onClose={() => {
           setShowModal(false);
         }}
-      >
-        <h3 className="text-2xl font-bold text-center text-green-600">
-          Contact Us
-        </h3>
-        <form
-          className="text-left flex flex-col gap-0.5"
-          action={handleSubmission}
-        >
-          <label htmlFor="name" className="text-lg text-gray-500 font-semibold">
-            Name
-          </label>
-          <input
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            id="name"
-            type="text"
-            className="bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-green-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-green-600"
-            placeholder="Your Name"
-            required
-          />
-          <label
-            htmlFor="email"
-            className="text-lg text-gray-500 font-semibold text-left"
-          >
-            Email
-          </label>
-          {error && <p className="text-red-500">{error}</p>}
-          <input
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            id="email"
-            type="email"
-            className="bg-white px-2 py-1 text-base rounded-md text-black shadow-lg border-1 border-green-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
-            placeholder="Your Email"
-            required
-          />
-          <label
-            htmlFor="message"
-            className="text-lg text-gray-500 font-semibold text-left"
-          >
-            Message
-          </label>
-          <textarea
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
-            id="message"
-            rows={4}
-            className="resize-none bg-white p-2 text-base rounded-md shadow-sm text-blalg border-1 border-green-500 w-70 w-full h-fit my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none focus:border-1 focus:border-green-600"
-            placeholder="Your Message"
-            required
-          />
-         <Button label="Submit" theme="green" type={2}/>
-        </form>
+      >{error && <Message message={error}/>}
+        <Form
+          heading="Contact Us"
+          theme="green"
+          entries={[
+            {
+              label: "Name",
+              value: "name",
+              type: "text",
+              element: "input",
+              id: "name",
+              placeholder: "Enter your name",
+            },
+            {
+              label: "Email",
+              value: "email",
+              type: "text",
+              element: "input",
+              id: "email",
+              placeholder: "Enter your email",
+            },
+            {
+              label: "Message",
+              value: "message",
+              type: "text",
+              element: "textarea",
+              id: "message",
+              placeholder: "Enter your message",
+            },
+          ]}
+          onSubmit={handleSubmit}
+        />
       </Modal>
       <Toast />
     </div>
