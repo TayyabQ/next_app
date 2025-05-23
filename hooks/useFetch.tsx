@@ -18,9 +18,6 @@ export default function useFetch() {
         body: JSON.stringify(body),
       });
 
-      const result = await response.json();
-      console.log(result);
-
       if (response.ok) {
         onSuccess()
       } else {

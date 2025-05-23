@@ -23,7 +23,6 @@ export default function NewsLetterForm({
   });
 
   function handleSubmit(data: any) {
-    console.log(data);
     const result = formSchema.safeParse(data);
     if (result.success) {
       fetchdata({
@@ -31,7 +30,6 @@ export default function NewsLetterForm({
         method: "POST",
         body: data,
         onSuccess: () => {
-          console.log("Subscribed");
           showToast("Subscribed Successfully", "blue");
           setTimeout(() => {
             setShowModal(false);

@@ -22,14 +22,12 @@ export default function ContactForm({
   const { fetchdata } = useFetch();
 
   function handleSubmit(data: any) {
-    console.log(data);
     fetchdata({
       url: "/routes/contact",
       method: "POST",
       body: data,
       onSuccess: () => {
         showToast("Message sent Successfully", "green");
-        console.log("Message Sent");
         setTimeout(() => {
           setShowModal(false);
         }, 2000);
