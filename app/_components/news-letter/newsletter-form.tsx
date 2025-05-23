@@ -21,7 +21,7 @@ export default function NewsLetterForm({
   });
 
   function handleSubmit(data: any) {
-    // console.log(data)
+    console.log(data)
     const result = formSchema.safeParse(data);
     if (result.success) {
       //usefetch(result.data)
