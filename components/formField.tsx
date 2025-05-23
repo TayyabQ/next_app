@@ -22,11 +22,26 @@ export default function FormField({
   onChange,
 }: FormFieldProps) {
   const color = theme ?? "gray";
-  const stylings = {
-    input: `bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-${color}-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-${color}-600`,
+  let stylings:{input:string,label:string,textarea:string};
+  if(color=="blue"){
+    stylings={
+    input: `bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600`,
     label: "text-lg text-gray-500 font-semibold",
-    textarea:`resize-none min-h-30 bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-${color}-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-${color}-600`
-  };
+    textarea:`resize-none min-h-30 bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-blue-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-blue-600`
+  }
+  }else if(color=="green"){
+    stylings={
+    input: `bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-green-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-green-600`,
+    label: "text-lg text-gray-500 font-semibold",
+    textarea:`resize-none min-h-30 bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-green-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-green-600`
+  }
+  }else{
+    stylings={
+    input: `bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-gray-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-gray-600`,
+    label: "text-lg text-gray-500 font-semibold",
+    textarea:`resize-none min-h-30 bg-white px-2 py-1 text-base rounded-md shadow-lg border-1 border-gray-500 w-70 w-full h-10 sm:h-12 my-1 sm:my-2 ml-1 sm:ml-2 focus:outline-none text-black focus:border-1 focus:border-gray-600`
+  }
+  }
 
   let fieldElement = null;
 

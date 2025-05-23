@@ -5,7 +5,7 @@ import useToast from "@/hooks/useToast";
 import Modal from "../../../components/modal";
 import Form from "../../../components/form";
 
-export default function ContactModal({
+export default function ContactForm({
   showModal,
   setShowModal,
 }: {

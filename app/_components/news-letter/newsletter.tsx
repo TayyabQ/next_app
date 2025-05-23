@@ -1,16 +1,11 @@
 "use client";
 
 import Button from "@/components/button";
-import Form from "./newsletter-form";
 import { useState } from "react";
-import Modal from "@/components/modal";
+import NewsLetterForm from "./newsletter-form";
 
 export default function NewsLetter() {
-  const [showForm, setShowForm] = useState(false);
-
-  const handleSubscribeClick = () => {
-    setShowForm(true);
-  };
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleFormSubmit = async (formData: {
     name: string;
@@ -33,7 +28,7 @@ export default function NewsLetter() {
       }
 
       console.log("Subscription successful:", result);
-      setShowForm(false);
+      setShowModal(false);
     } catch (error: any) {
       console.error("Subscription submission failed:", error);
     }
@@ -60,24 +55,14 @@ export default function NewsLetter() {
             label="Subscribe"
             theme="blue"
             type={1}
-            func={handleSubscribeClick}
+            func={() => {
+              setShowModal(true);
+            }}
           />
         </div>
-
-        <Modal
-          isOpen={showForm}
-          onClose={() => {
-            setShowForm(false);
-          }}
-        >
-          <Form
-            nameLabel="Your Name"
-            emailLabel="Your Email Address"
-            showForm={showForm}
-            setShowForm={setShowForm}
-            onSubmit={handleFormSubmit}
-          />
-        </Modal>
+        {showModal && (
+          <NewsLetterForm showModal={showModal} setShowModal={setShowModal} />
+        )}
 
         <div className="absolute bottom-0 left-0 p-3 sm:p-5 opacity-80">
           <img
@@ -88,7 +73,6 @@ export default function NewsLetter() {
             className="w-28 h-auto sm:w-36 md:w-[185px]"
           />
         </div>
-        
       </div>
     </>
   );

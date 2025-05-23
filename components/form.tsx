@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "./button";
 import FormField from "./formField";
+import FormHeading from "./formHeading";
 
 type FormData = {
   [key: string]: string;
@@ -41,9 +42,7 @@ export default function Form(props: FormProps) {
 
   return (
     <>
-      <h3 className={`text-2xl font-bold text-center text-${props.theme}-600`}>
-        {props.heading}
-      </h3>
+      <FormHeading value={props.heading} color={props.theme}/>
       <form onSubmit={handleSubmit} className="text-left flex flex-col gap-0.5">
         <div>
           {props.entries.map((entry, index) => (
